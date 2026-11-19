@@ -1,0 +1,51 @@
+@font-face {
+  font-family: "Anton";
+  src: url("./fonts/Anton-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Bebas Neue";
+  src: url("./fonts/BebasNeue-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: #14091f; color: #f5eefc; font-family: system-ui, sans-serif; }
+.top { padding: 18px 24px 8px; }
+.top h1 { margin: 0; font-size: 28px; letter-spacing: 1px; }
+.tagline { margin: 4px 0 0; color: #c9b8e0; }
+.layout { display: grid; grid-template-columns: 320px 1fr; gap: 20px; padding: 16px 24px; align-items: start; }
+.panel { background: #1e0f2e; border-radius: 12px; padding: 16px; }
+.group { margin-bottom: 18px; }
+.group h2 { margin: 0 0 8px; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: #ff7ad9; }
+.row { display: flex; flex-wrap: wrap; gap: 8px; }
+button { background: #2c1846; color: #f5eefc; border: 1px solid #4a2a6e; border-radius: 8px; padding: 8px 12px; cursor: pointer; font-size: 14px; }
+button:hover { border-color: #ff4fa3; }
+button.active { background: #ff4fa3; border-color: #ff4fa3; color: #fff; }
+button:focus-visible, input:focus-visible { outline: 2px solid #ff4fa3; outline-offset: 2px; }
+.export { background: #ff4fa3; border-color: #ff4fa3; color: #fff; font-size: 16px; font-weight: 700; width: 100%; margin-top: 8px; padding: 12px; }
+label { display: block; margin: 8px 0; font-size: 14px; }
+input[type="text"] { width: 100%; padding: 8px; border-radius: 8px; border: 1px solid #4a2a6e; background: #14091f; color: #f5eefc; margin-top: 4px; }
+input[type="range"] { width: 100%; }
+.thumbs { display: flex; gap: 8px; }
+.thumbs img { width: 60px; height: 60px; object-fit: cover; border-radius: 8px; cursor: pointer; border: 2px solid transparent; }
+.thumbs img:hover { border-color: #ff4fa3; }
+.upload { display: inline-block; background: #2c1846; border: 1px solid #4a2a6e; border-radius: 8px; padding: 8px 12px; cursor: pointer; margin-top: 8px; }
+.upload input { display: none; }
+.swatches button { width: 32px; height: 32px; border-radius: 50%; padding: 0; border: 2px solid #4a2a6e; }
+.swatches button[data-color="#ffffff"] { background: #ffffff; }
+.swatches button[data-color="#ffd166"] { background: #ffd166; }
+.swatches button[data-color="#7ff3ff"] { background: #7ff3ff; }
+.swatches button[data-color="#ff7ad9"] { background: #ff7ad9; }
+.swatches button.active { border-color: #fff; box-shadow: 0 0 0 2px #ff4fa3; }
+.status { min-height: 20px; color: #7ff3ff; font-size: 13px; }
+.preview { display: flex; justify-content: center; }
+.preview canvas { max-width: 100%; border-radius: 8px; background: #1e0f2e; background-image: linear-gradient(45deg, #241338 25%, transparent 25%, transparent 75%, #241338 75%), linear-gradient(45deg, #241338 25%, transparent 25%, transparent 75%, #241338 75%); background-size: 24px 24px; background-position: 0 0, 12px 12px; }
+footer { padding: 12px 24px 24px; color: #c9b8e0; font-size: 13px; }
+body.shot-cover header, body.shot-cover .panel, body.shot-cover footer { display: none; }
+body.shot-cover .layout { display: block; padding: 0; }
+body.shot-cover .preview canvas { border-radius: 0; }
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; }
+}
