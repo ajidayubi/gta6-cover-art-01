@@ -1,82 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Vice Cover Maker</title>
-<link rel="stylesheet" href="./style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vice Cover Maker</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header class="top">
-  <h1>Vice Cover Maker</h1>
-  <p class="tagline">Your photo. Your caption. A poster cover.</p>
-</header>
-<main class="layout">
-  <section class="panel" aria-label="Controls">
-    <div class="group">
-      <h2>Photos</h2>
-      <div class="thumbs" id="thumbs"></div>
-      <label class="upload">Upload photos
-        <input type="file" id="upload" accept="image/*" multiple>
-      </label>
-    </div>
-    <div class="group">
-      <h2>Layout</h2>
-      <div class="row" id="layouts">
-        <button type="button" data-layout="Vice Trio" class="active">Vice Trio</button>
-        <button type="button" data-layout="Four Corners">Four Corners</button>
-        <button type="button" data-layout="Hero Strip">Hero Strip</button>
-        <button type="button" data-layout="Single">Single</button>
+  <header class="top">
+    <h1>VICE COVER MAKER</h1>
+    <p class="tagline">Create your own iconic retro crime saga cover art</p>
+  </header>
+
+  <div class="layout">
+    <section class="panel">
+      <div class="group">
+        <h3>Photos</h3>
+        <div class="thumbs"></div>
+        <div class="row upload">
+          <input type="file" id="photo-upload" accept="image/*">
+        </div>
       </div>
-    </div>
-    <div class="group">
-      <h2>Panels</h2>
-      <p id="panelName">Panel 1 selected</p>
-      <label>Zoom <input type="range" id="zoom" min="1" max="3" step="0.05" value="1"></label>
-      <div class="row">
-        <button type="button" id="fillBtn" class="active">Fill</button>
-        <button type="button" id="fitBtn">Fit</button>
+
+      <div class="group">
+        <h3>Layout</h3>
+        <div class="row">
+          <label>Position X</label>
+          <input type="range" id="layout-x" min="-100" max="100" value="0">
+        </div>
+        <div class="row">
+          <label>Position Y</label>
+          <input type="range" id="layout-y" min="-100" max="100" value="0">
+        </div>
+        <div class="row">
+          <label>Zoom</label>
+          <input type="range" id="layout-zoom" min="50" max="200" value="100">
+        </div>
       </div>
-    </div>
-    <div class="group">
-      <h2>Grade</h2>
-      <div class="row" id="grades">
-        <button type="button" data-grade="Sunset" class="active">Sunset</button>
-        <button type="button" data-grade="Neon">Neon</button>
-        <button type="button" data-grade="Vice">Vice</button>
-        <button type="button" data-grade="Noir">Noir</button>
+
+      <div class="group">
+        <h3>Panels</h3>
+        <div class="row">
+          <button type="button" id="panel-add">Add Panel</button>
+          <button type="button" id="panel-remove">Remove Panel</button>
+        </div>
       </div>
-      <label><input type="checkbox" id="grain" checked> Grain</label>
-      <label><input type="checkbox" id="vignette" checked> Vignette</label>
-    </div>
-    <div class="group">
-      <h2>Caption</h2>
-      <label>Title <input type="text" id="title" maxlength="40" value="SUNSET HEIST"></label>
-      <label>Subtitle <input type="text" id="subtitle" maxlength="40" value="NEON SUNSET • 2026"></label>
-      <label>Title size <input type="range" id="titleSize" min="0.7" max="1.3" step="0.05" value="1"></label>
-      <div class="row swatches" id="swatches">
-        <button type="button" data-color="#ffffff" class="active" aria-label="White"></button>
-        <button type="button" data-color="#ffd166" aria-label="Yellow"></button>
-        <button type="button" data-color="#7ff3ff" aria-label="Cyan"></button>
-        <button type="button" data-color="#ff7ad9" aria-label="Pink"></button>
+
+      <div class="group">
+        <h3>Grade</h3>
+        <div class="row">
+          <label>Saturation</label>
+          <input type="range" id="grade-sat" min="0" max="200" value="100">
+        </div>
+        <div class="row">
+          <label>Contrast</label>
+          <input type="range" id="grade-contrast" min="50" max="150" value="100">
+        </div>
+        <div class="row">
+          <label>Vignette</label>
+          <input type="range" id="grade-vignette" min="0" max="100" value="50">
+        </div>
       </div>
-    </div>
-    <div class="group">
-      <h2>Export</h2>
-      <div class="row" id="sizes">
-        <button type="button" data-size="1080x1080">Square</button>
-        <button type="button" data-size="1080x1350">Portrait</button>
-        <button type="button" data-size="1920x1080" class="active">Landscape</button>
+
+      <div class="group">
+        <h3>Caption</h3>
+        <div class="row">
+          <input type="text" id="title-input" value="SUNSET HEIST">
+        </div>
+        <div class="row">
+          <input type="text" id="subtitle-input" value="NEON SUNSET • 2026">
+        </div>
+        <div class="row swatches">
+          <button type="button" class="swatch" data-color="#ff7b00" style="background: #ff7b00;"></button>
+          <button type="button" class="swatch" data-color="#ff0055" style="background: #ff0055;"></button>
+          <button type="button" class="swatch" data-color="#00ffff" style="background: #00ffff;"></button>
+          <button type="button" class="swatch" data-color="#ffff00" style="background: #ffff00;"></button>
+        </div>
       </div>
-      <button type="button" id="exportBtn" class="export">Export PNG</button>
-      <p id="status" class="status"></p>
+
+      <div class="group">
+        <h3>Export</h3>
+        <div class="row">
+          <button type="button" class="export">Export High-Res Cover</button>
+        </div>
+        <div class="status"></div>
+      </div>
+    </section>
+
+    <div class="preview">
+      <canvas id="cover-canvas"></canvas>
     </div>
-  </section>
-  <section class="preview" aria-label="Preview">
-    <canvas id="preview"></canvas>
-  </section>
-</main>
-<footer>The app runs offline and photos never leave the machine.</footer>
-<script type="module" src="./src/main.js"></script>
+  </div>
+
+  <footer>
+    <p>This app runs entirely offline. Your photos never leave your machine.</p>
+  </footer>
+
+  <script type="module" src="src/main.js"></script>
 </body>
 </html>

@@ -1,40 +1,40 @@
-import { cpSync, mkdirSync, existsSync, writeFileSync } from 'node:fs';
-import { join, dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import * as fs from 'node:fs';
+import * as path from 'node:path';
 import { buildDossier } from './vendor/makefun-app.ts';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const outputDir = process.env.MAKEFUN_OUTPUT_DIR || 'out';
 
-const outputDir = process.env.MAKEFUN_OUTPUT_DIR || join(__dirname, 'output');
+// Ensure output directory exists
+fs.mkdirSync(outputDir, { recursive: true });
 
-mkdirSync(outputDir, { recursive: true });
-
-const appSrc = join(__dirname, 'app');
-const appDest = join(outputDir, 'app');
-if (existsSync(appSrc)) {
-  cpSync(appSrc, appDest, { recursive: true });
+// Copy app directory if it exists
+const appDir = 'app';
+if (fs.existsSync(appDir)) {
+  fs.cpSync(appDir, path.join(outputDir, 'app'), { recursive: true });
 }
 
-const screenshotsSrc = join(__dirname, 'screenshots');
-const screenshotsDest = join(outputDir, 'screenshots');
-if (existsSync(screenshotsSrc)) {
-  cpSync(screenshotsSrc, screenshotsDest, { recursive: true });
+// Copy screenshots directory if it exists
+const screenshotsDir = 'screenshots';
+if (fs.existsSync(screenshotsDir)) {
+  fs.cpSync(screenshotsDir, path.join(outputDir, 'screenshots'), { recursive: true });
 }
 
-const caps = {
+// Call buildDossier with output directory and flat limits object
+// Limits according to standard kit usage / spec: text byte cap, screenshot count and byte cap, app file-count, byte and path caps.
+const limits = {
   text_max_bytes: 163840,
   screenshots: {
     max: 4,
-    max_bytes: 262144,
+    max_bytes: 262144
   },
   app_max_files: 993,
   app_max_bytes: 50331648,
-  app_path_max_bytes: 1000,
+  app_path_max_bytes: 1000
 };
 
-const dossier = buildDossier(outputDir, caps);
+const dossierBytes = buildDossier(outputDir, limits);
 
-writeFileSync(join(outputDir, 'dossier.json'), dossier);
+// Write bytes directly to dossier.json in the output directory without converting to text or JSON
+fs.writeFileSync(path.join(outputDir, 'dossier.json'), Buffer.from(dossierBytes));
 
-console.log(`Wrote dossier to ${join(outputDir, 'dossier.json')}`);
+console.log('Dossier was written.');
