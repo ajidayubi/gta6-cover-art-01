@@ -1,8 +1,8 @@
 export async function runShot(shotName, query, loader) {
-  const title = query.title !== undefined ? query.title : 'SUNSET HEIST';
-  const subtitle = query.subtitle !== undefined ? query.subtitle : 'NEON SUNSET • 2026';
-  const layout = query.layout !== undefined ? query.layout : 'Vice Trio';
-  const grade = query.grade !== undefined ? query.grade : 'Sunset';
+  const title = query.title ? query.title : 'SUNSET HEIST';
+  const subtitle = query.subtitle ? query.subtitle : 'NEON SUNSET • 2026';
+  const layout = query.layout ? query.layout : 'Vice Trio';
+  const grade = query.grade ? query.grade : 'Sunset';
 
   if (shotName === 'cover') {
     document.body.classList.add('shot-cover');
@@ -15,7 +15,9 @@ export async function runShot(shotName, query, loader) {
 
   await new Promise(resolve => {
     requestAnimationFrame(() => {
-      requestAnimationFrame(resolve);
+      requestAnimationFrame(() => {
+        resolve();
+      });
     });
   });
 

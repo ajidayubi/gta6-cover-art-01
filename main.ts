@@ -19,9 +19,8 @@ if (fs.existsSync(screenshotsDir)) {
   fs.cpSync(screenshotsDir, path.join(outputDir, 'screenshots'), { recursive: true });
 }
 
-// Call buildDossier with output directory and flat limits object
-// Limits according to standard kit usage / spec: text byte cap, screenshot count and byte cap, app file-count, byte and path caps.
-const limits = {
+// Build submission dossier
+const dossierBytes = buildDossier(outputDir, {
   text_max_bytes: 163840,
   screenshots: {
     max: 4,
@@ -30,11 +29,9 @@ const limits = {
   app_max_files: 993,
   app_max_bytes: 50331648,
   app_path_max_bytes: 1000
-};
+});
 
-const dossierBytes = buildDossier(outputDir, limits);
-
-// Write bytes directly to dossier.json in the output directory without converting to text or JSON
+// Write dossier bytes directly to dossier.json in the output directory
 fs.writeFileSync(path.join(outputDir, 'dossier.json'), Buffer.from(dossierBytes));
 
-console.log('Dossier was written.');
+console.log('Dossier was written');

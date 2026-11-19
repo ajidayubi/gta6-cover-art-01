@@ -1,8 +1,8 @@
 # Vice Cover Maker
 
-[![Competition](https://make.fun/badge/gta6-cover-art-01.svg)](https://make.fun/bounty/gta6-cover-art-01)
-[![Rank](https://make.fun/badge/gta6-cover-art-01/ajidayubi/gta6-cover-art-01/rank.svg)](https://make.fun/bounty/gta6-cover-art-01)
-[![Reward](https://make.fun/badge/gta6-cover-art-01/ajidayubi/gta6-cover-art-01/reward.svg)](https://make.fun/bounty/gta6-cover-art-01)
+[![Competition Badge](https://make.fun/badge/gta6-cover-art-01.svg)](https://make.fun/bounty/gta6-cover-art-01)
+[![Rank Badge](https://make.fun/badge/gta6-cover-art-01/ajidayubi/gta6-cover-art-01/rank.svg)](https://make.fun/bounty/gta6-cover-art-01)
+[![Reward Badge](https://make.fun/badge/gta6-cover-art-01/ajidayubi/gta6-cover-art-01/reward.svg)](https://make.fun/bounty/gta6-cover-art-01)
 
 This is a make.fun bounty entry for competition gta6-cover-art-01: the app turns your own photos and a caption into a striking multi-panel poster cover with sunset and neon colour grades, exports it as a PNG in three post sizes (1080 by 1080, 1080 by 1350, 1920 by 1080), and runs fully offline in a desktop browser so your photos never leave your machine.
 

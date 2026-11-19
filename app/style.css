@@ -1,91 +1,78 @@
 @font-face {
   font-family: 'Anton';
-  src: url('fonts/Anton-Regular.ttf') format('truetype');
-  font-weight: 400;
+  src: url('../fonts/Anton-Regular.ttf') format('truetype');
+  font-weight: normal;
   font-style: normal;
-  font-display: swap;
 }
 
 @font-face {
   font-family: 'Bebas Neue';
-  src: url('fonts/BebasNeue-Regular.ttf') format('truetype');
-  font-weight: 400;
+  src: url('../fonts/BebasNeue-Regular.ttf') format('truetype');
+  font-weight: normal;
   font-style: normal;
-  font-display: swap;
-}
-
-*, *::before, *::after {
-  box-sizing: border-box;
 }
 
 body {
+  background-color: #120d1a;
+  color: #f3f0f7;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #12091f;
-  color: #f3f0f7;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
 }
 
 .top {
-  background-color: #1b0e2d;
-  padding: 1rem 1.5rem;
-  border-bottom: 1px solid #2d164d;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  background-color: #1b1326;
+  border-bottom: 1px solid #2d213f;
+  padding: 1rem;
 }
 
 .layout {
-  display: grid;
-  grid-template-columns: 360px 1fr;
-  gap: 1.5rem;
+  display: flex;
+  min-height: calc(100vh - 65px);
   padding: 1.5rem;
-  flex: 1;
-  max-width: 1600px;
-  margin: 0 auto;
-  width: 100%;
+  gap: 1.5rem;
 }
 
 .panel {
-  background-color: #1b0e2d;
-  border-radius: 12px;
+  background-color: #1b1326;
+  border: 1px solid #2d213f;
+  border-radius: 8px;
   padding: 1.5rem;
-  border: 1px solid #2d164d;
+  flex: 1;
+  max-width: 420px;
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 .preview {
-  background-color: #160b26;
+  flex: 2;
+  background-color: #0b0710;
   background-image: 
-    linear-gradient(45deg, #1d0f31 25%, transparent 25%), 
-    linear-gradient(-45deg, #1d0f31 25%, transparent 25%), 
-    linear-gradient(45deg, transparent 75%, #1d0f31 75%), 
-    linear-gradient(-45deg, transparent 75%, #1d0f31 75%);
+    linear-gradient(45deg, #150f1f 25%, transparent 25%), 
+    linear-gradient(-45deg, #150f1f 25%, transparent 25%), 
+    linear-gradient(45deg, transparent 75%, #150f1f 75%), 
+    linear-gradient(-45deg, transparent 75%, #150f1f 75%);
   background-size: 20px 20px;
   background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
-  border-radius: 12px;
-  border: 1px solid #2d164d;
+  border: 1px solid #2d213f;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 1.5rem;
   overflow: hidden;
-  position: relative;
 }
 
-.preview canvas,
-.preview img,
-.preview video {
+.preview canvas {
   max-width: 100%;
   height: auto;
-  display: block;
-  border-radius: 8px;
+  border-radius: 4px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
@@ -97,9 +84,41 @@ body {
 
 .row {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.75rem;
   align-items: center;
   flex-wrap: wrap;
+}
+
+button, .upload, .export {
+  background-color: #2b1f3d;
+  color: #f3f0f7;
+  border: 1px solid #43315e;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+button:hover, .upload:hover, .export:hover {
+  background-color: #382750;
+  border-color: #ff2a85;
+}
+
+button:focus-visible, .upload:focus-visible, .export:focus-visible, input:focus-visible, select:focus-visible {
+  outline: 2px solid #ff2a85;
+  outline-offset: 2px;
+}
+
+button.active, .export {
+  background-color: #ff2a85;
+  color: #ffffff;
+  border-color: #ff2a85;
+  font-weight: 600;
+}
+
+button.active:hover, .export:hover {
+  background-color: #e02073;
 }
 
 .thumbs {
@@ -108,127 +127,46 @@ body {
   flex-wrap: wrap;
 }
 
-.upload {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.status {
-  font-size: 0.875rem;
-  opacity: 0.8;
-}
-
-.tagline {
-  font-size: 0.875rem;
-  opacity: 0.7;
-}
-
-.export {
-  background-color: #ff2a7a;
-  color: #ffffff;
-  border: none;
-  border-radius: 8px;
-  padding: 0.75rem 1.25rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.1s ease;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.export:hover {
-  background-color: #ff438b;
-}
-
-.export:active {
-  transform: scale(0.98);
-}
-
 .swatches {
   display: flex;
   gap: 0.5rem;
   align-items: center;
 }
 
-button, input, select, textarea {
-  font-family: inherit;
+.status {
+  font-size: 0.85rem;
+  color: #b8a9cc;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid #2d164d;
-  background-color: #26133f;
-  color: #f3f0f7;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
+.tagline {
+  font-size: 0.9rem;
+  color: #b8a9cc;
+  font-style: italic;
 }
 
-button:hover {
-  background-color: #311951;
-  border-color: #ff2a7a;
-}
-
-button:focus-visible,
-input:focus-visible,
-select:focus-visible,
-textarea:focus-visible {
-  outline: 2px solid #ff2a7a;
-  outline-offset: 2px;
-}
-
-button.active,
-button[aria-pressed="true"],
-.active-btn {
-  background-color: #ff2a7a;
-  border-color: #ff2a7a;
-  color: #ffffff;
-}
-
-/* Cover screenshot rules */
-body.shot-cover .top {
-  display: none !important;
-}
-
-body.shot-cover .panel {
-  display: none !important;
-}
-
-body.shot-cover footer,
-body.shot-cover .footer {
+body.shot-cover .top,
+body.shot-cover .panel,
+body.shot-cover footer {
   display: none !important;
 }
 
 body.shot-cover .layout {
   padding: 0 !important;
-  margin: 0 !important;
-  display: block !important;
-  max-width: none !important;
-  width: 100% !important;
+  height: 100vh;
 }
 
-body.shot-cover .preview {
-  border-radius: 0 !important;
-  border: none !important;
-  padding: 0 !important;
-  background: none !important;
-}
-
-body.shot-cover .preview canvas,
-body.shot-cover .preview img,
-body.shot-cover .preview video {
+body.shot-cover .preview canvas {
   border-radius: 0 !important;
   box-shadow: none !important;
-  width: 100% !important;
-  height: 100% !important;
-  max-width: none !important;
 }
 
-/* Responsive layout */
-@media (max-width: 899px) {
+@media (max-width: 900px) {
   .layout {
-    grid-template-columns: 1fr;
+    flex-direction: column;
     padding: 1rem;
+  }
+  
+  .panel {
+    max-width: 100%;
   }
 }
