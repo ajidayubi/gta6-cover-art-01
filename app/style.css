@@ -1,79 +1,113 @@
 @font-face {
   font-family: 'Anton';
-  src: url('../fonts/Anton-Regular.ttf') format('truetype');
-  font-weight: normal;
+  src: url('fonts/Anton-Regular.ttf') format('truetype');
+  font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Bebas Neue';
-  src: url('../fonts/BebasNeue-Regular.ttf') format('truetype');
-  font-weight: normal;
+  src: url('fonts/BebasNeue-Regular.ttf') format('truetype');
+  font-weight: 400;
   font-style: normal;
 }
 
-body {
-  background-color: #120d1a;
-  color: #f3f0f7;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  margin: 0;
-  padding: 0;
+:root {
+  --bg-dark: #120c1f;
+  --panel-bg: #1a122e;
+  --text-main: #f3f0ff;
+  --text-muted: #b8b2d1;
+  --accent: #ff2a85;
+  --accent-hover: #ff479b;
+  --border-color: #2e214d;
+}
+
+* {
   box-sizing: border-box;
 }
 
-*, *::before, *::after {
-  box-sizing: inherit;
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+button, input, select {
+  font-family: inherit;
+  color: inherit;
+}
+
+button:focus-visible, input:focus-visible, select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 .top {
-  background-color: #1b1326;
-  border-bottom: 1px solid #2d213f;
-  padding: 1rem;
+  background-color: var(--panel-bg);
+  border-bottom: 1px solid var(--border-color);
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .layout {
   display: flex;
-  min-height: calc(100vh - 65px);
-  padding: 1.5rem;
+  flex: 1;
   gap: 1.5rem;
+  padding: 1.5rem;
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .panel {
-  background-color: #1b1326;
-  border: 1px solid #2d213f;
+  background-color: var(--panel-bg);
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 1.5rem;
-  flex: 1;
-  max-width: 420px;
+  width: 380px;
+  flex-shrink: 0;
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+  overflow-y: auto;
+  max-height: calc(100vh - 120px);
 }
 
 .preview {
-  flex: 2;
-  background-color: #0b0710;
+  flex: 1;
+  background-color: #0b0714;
   background-image: 
-    linear-gradient(45deg, #150f1f 25%, transparent 25%), 
-    linear-gradient(-45deg, #150f1f 25%, transparent 25%), 
-    linear-gradient(45deg, transparent 75%, #150f1f 75%), 
-    linear-gradient(-45deg, transparent 75%, #150f1f 75%);
+    linear-gradient(45deg, #160f26 25%, transparent 25%), 
+    linear-gradient(-45deg, #160f26 25%, transparent 25%), 
+    linear-gradient(45deg, transparent 75%, #160f26 75%), 
+    linear-gradient(-45deg, transparent 75%, #160f26 75%);
   background-size: 20px 20px;
   background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
-  border: 1px solid #2d213f;
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 1.5rem;
+  position: relative;
   overflow: hidden;
 }
 
-.preview canvas {
+.preview canvas,
+.preview img,
+.preview video,
+.preview .canvas-wrapper {
   max-width: 100%;
   height: auto;
+  object-fit: contain;
   border-radius: 4px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
 .group {
@@ -84,89 +118,129 @@ body {
 
 .row {
   display: flex;
-  gap: 0.75rem;
+  gap: 0.5rem;
   align-items: center;
   flex-wrap: wrap;
 }
 
-button, .upload, .export {
-  background-color: #2b1f3d;
-  color: #f3f0f7;
-  border: 1px solid #43315e;
-  border-radius: 6px;
+button {
+  background-color: var(--border-color);
+  border: 1px solid transparent;
+  color: var(--text-main);
   padding: 0.5rem 1rem;
-  font-size: 0.95rem;
+  border-radius: 6px;
   cursor: pointer;
+  font-weight: 500;
   transition: background-color 0.2s, border-color 0.2s;
 }
 
-button:hover, .upload:hover, .export:hover {
-  background-color: #382750;
-  border-color: #ff2a85;
+button:hover {
+  background-color: #3b2a63;
 }
 
-button:focus-visible, .upload:focus-visible, .export:focus-visible, input:focus-visible, select:focus-visible {
-  outline: 2px solid #ff2a85;
-  outline-offset: 2px;
+button.active, button[aria-pressed="true"] {
+  background-color: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
 }
 
-button.active, .export {
-  background-color: #ff2a85;
-  color: #ffffff;
-  border-color: #ff2a85;
-  font-weight: 600;
+button.active:hover {
+  background-color: var(--accent-hover);
 }
 
-button.active:hover, .export:hover {
-  background-color: #e02073;
+.export {
+  background-color: var(--accent);
+  color: #fff;
+  border: none;
+  font-weight: bold;
+  padding: 0.75rem 1.25rem;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.2s;
 }
 
-.thumbs {
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
+.export:hover {
+  background-color: var(--accent-hover);
 }
 
 .swatches {
   display: flex;
   gap: 0.5rem;
-  align-items: center;
+  flex-wrap: wrap;
+}
+
+.thumbs {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+}
+
+.upload {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .status {
-  font-size: 0.85rem;
-  color: #b8a9cc;
+  font-size: 0.875rem;
+  color: var(--text-muted);
 }
 
 .tagline {
-  font-size: 0.9rem;
-  color: #b8a9cc;
-  font-style: italic;
+  font-size: 0.875rem;
+  color: var(--text-muted);
 }
 
-body.shot-cover .top,
-body.shot-cover .panel,
-body.shot-cover footer {
+/* Cover screenshot mode */
+body.shot-cover .top {
+  display: none !important;
+}
+
+body.shot-cover .panel {
+  display: none !important;
+}
+
+body.shot-cover footer,
+body.shot-cover .footer {
   display: none !important;
 }
 
 body.shot-cover .layout {
   padding: 0 !important;
-  height: 100vh;
+  margin: 0 !important;
+  max-width: none !important;
+  width: 100% !important;
+  height: 100vh !important;
 }
 
-body.shot-cover .preview canvas {
+body.shot-cover .preview {
+  border: none !important;
   border-radius: 0 !important;
-  box-shadow: none !important;
+  padding: 0 !important;
+  background: none !important;
 }
 
-@media (max-width: 900px) {
+body.shot-cover .preview canvas,
+body.shot-cover .preview img,
+body.shot-cover .preview .canvas-wrapper {
+  border-radius: 0 !important;
+}
+
+/* Responsive layout for viewports narrower than 900px */
+@media (max-width: 899px) {
   .layout {
     flex-direction: column;
     padding: 1rem;
   }
-  
+
   .panel {
-    max-width: 100%;
+    width: 100%;
+    max-height: none;
+  }
+
+  .preview {
+    min-height: 400px;
   }
 }

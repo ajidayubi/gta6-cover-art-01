@@ -1,37 +1,51 @@
-import * as fs from 'node:fs';
-import * as path from 'node:path';
+import * as fs from 'fs';
+import * as path from 'path';
 import { buildDossier } from './vendor/makefun-app.ts';
 
-const outputDir = process.env.MAKEFUN_OUTPUT_DIR || 'out';
-
-// Ensure output directory exists
-fs.mkdirSync(outputDir, { recursive: true });
-
-// Copy app directory if it exists
-const appDir = 'app';
-if (fs.existsSync(appDir)) {
-  fs.cpSync(appDir, path.join(outputDir, 'app'), { recursive: true });
+// This entrypoint copies the app and screenshots into the output directory and builds the dossier.
+function copyRecursiveSync(src: string, dest: string) {
+  if (!fs.existsSync(src)) return;
+  const stats = fs.statSync(src);
+  if (stats.isDirectory()) {
+    if (!fs.existsSync(dest)) {
+      fs.mkdirSync(dest, { recursive: true });
+    }
+    for (const childItemName of fs.readdirSync(src)) {
+      copyRecursiveSync(path.join(src, childItemName), path.join(dest, childItemName));
+    }
+  } else {
+    fs.copyFileSync(src, dest);
+  }
 }
 
-// Copy screenshots directory if it exists
-const screenshotsDir = 'screenshots';
-if (fs.existsSync(screenshotsDir)) {
-  fs.cpSync(screenshotsDir, path.join(outputDir, 'screenshots'), { recursive: true });
+function main() {
+  const outputDir = process.env.MAKEFUN_OUTPUT_DIR || 'out';
+
+  if (!fs.existsSync(outputDir)) {
+    fs.mkdirSync(outputDir, { recursive: true });
+  }
+
+  copyRecursiveSync('app', path.join(outputDir, 'app'));
+  copyRecursiveSync('screenshots', path.join(outputDir, 'screenshots'));
+
+  const limits = {
+    text_max_bytes: 163840,
+    screenshots: {
+      max: 4,
+      max_bytes: 262144
+    },
+    app_max_files: 993,
+    app_max_bytes: 50331648,
+    app_path_max_bytes: 1000
+  };
+
+  const dossierBytes = buildDossier(outputDir, limits);
+
+  const dossierPath = path.join(outputDir, 'dossier.json');
+  fs.writeFileSync(dossierPath, Buffer.from(dossierBytes));
+
+  console.log('Dossier was written');
+  console.log('Output directory:', outputDir);
 }
 
-// Build submission dossier
-const dossierBytes = buildDossier(outputDir, {
-  text_max_bytes: 163840,
-  screenshots: {
-    max: 4,
-    max_bytes: 262144
-  },
-  app_max_files: 993,
-  app_max_bytes: 50331648,
-  app_path_max_bytes: 1000
-});
-
-// Write dossier bytes directly to dossier.json in the output directory
-fs.writeFileSync(path.join(outputDir, 'dossier.json'), Buffer.from(dossierBytes));
-
-console.log('Dossier was written');
+main();
