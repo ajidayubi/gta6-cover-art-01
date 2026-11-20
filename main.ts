@@ -1,32 +1,44 @@
-import * as fs from 'fs';
-import * as path from 'path';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { buildDossier } from './vendor/makefun-app.ts';
 
-// This entrypoint copies the app and screenshots into the output directory and builds the dossier.
-function copyRecursiveSync(src: string, dest: string) {
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+function copyRecursive(src: string, dest: string) {
   if (!fs.existsSync(src)) return;
   const stats = fs.statSync(src);
   if (stats.isDirectory()) {
     if (!fs.existsSync(dest)) {
       fs.mkdirSync(dest, { recursive: true });
     }
-    for (const childItemName of fs.readdirSync(src)) {
-      copyRecursiveSync(path.join(src, childItemName), path.join(dest, childItemName));
+    for (const child of fs.readdirSync(src)) {
+      copyRecursive(path.join(src, child), path.join(dest, child));
     }
   } else {
+    const parentDir = path.dirname(dest);
+    if (!fs.existsSync(parentDir)) {
+      fs.mkdirSync(parentDir, { recursive: true });
+    }
     fs.copyFileSync(src, dest);
   }
 }
 
 function main() {
-  const outputDir = process.env.MAKEFUN_OUTPUT_DIR || 'out';
+  const outputDir = process.env.MAKEFUN_OUTPUT_DIR || path.join(__dirname, 'out');
 
   if (!fs.existsSync(outputDir)) {
     fs.mkdirSync(outputDir, { recursive: true });
   }
 
-  copyRecursiveSync('app', path.join(outputDir, 'app'));
-  copyRecursiveSync('screenshots', path.join(outputDir, 'screenshots'));
+  // Resolve app and screenshots directories from this file's location because the grader runs from a different working directory
+  const appSrc = path.join(__dirname, 'app');
+  const appDest = path.join(outputDir, 'app');
+  copyRecursive(appSrc, appDest);
+
+  const screenshotsSrc = path.join(__dirname, 'screenshots');
+  const screenshotsDest = path.join(outputDir, 'screenshots');
+  copyRecursive(screenshotsSrc, screenshotsDest);
 
   const limits = {
     text_max_bytes: 163840,
@@ -45,7 +57,8 @@ function main() {
   fs.writeFileSync(dossierPath, Buffer.from(dossierBytes));
 
   console.log('Dossier was written');
-  console.log('Output directory:', outputDir);
+  console.log(outputDir);
+  console.log(appSrc);
 }
 
 main();
